@@ -48,14 +48,33 @@ var app = new Vue( {
 
         addNewTodo: function ( ) {
 			console.log( "Adding new todo" );
-            var new_todo = { 
-                name: this.new_todo_input,
-				completed: false,
-				editing: false,
-            };
-            this.todos.unshift( new_todo );
-            this.new_todo_input = "";
+			var req_body = {
+				name: this.new_todo_input
+			};
+			fetch( `${ url }/todos`, {
+				method: "POST",
+				headers: {
+					"Content-type": "application/json"
+				},
+				body: JSON.stringify( req_body )
+			}).then( function ( response ) {
+				if ( response.status == 400 ) {
+					response.json( ).then( function ( data ) {
+						alert( data.msg );
+					})
+				} else if ( response.status == 201 ) {
+					app.new_todo_input = "";
+					app.getTodos( );
+				}
+			});
         },
+            // var new_todo = { 
+            //     name: this.new_todo_input,
+			// 	completed: false,
+			// 	editing: false,
+            // };
+            // this.todos.unshift( new_todo );
+			// this.new_todo_input = "";
         deleteTodo: function ( todo ) {
 			console.log( "Deleting todo" );
 			var index = -1;
@@ -75,4 +94,4 @@ var app = new Vue( {
 			// Don't need this function initially, only when we are adding the fetch to the server
 		}
     }
-} );
+});
