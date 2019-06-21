@@ -1,4 +1,8 @@
 
+const url = "http://localhost:3000";
+//const url = "https://to-do-server-mark.herokuapp.com"
+
+
 
 var app = new Vue( {
 	el: "#app",
@@ -32,7 +36,7 @@ var app = new Vue( {
 
 		getTodos: function ( ) {
 			console.log( "Getting todos");
-			fetch( "http://localhost:3000/todos" ).then( function (response) {
+			fetch( `${ url }/todos` ).then( function (response) {
 				response.json( ).then( function ( data ) {
 					console.log( data );
 					app.todos = data.todos;
