@@ -4,27 +4,44 @@ var app = new Vue( {
 	el: "#app",
 	
     data: {
-        todos: [
-            {
-                name: "Mow the lawn",
-				completed: false,
-				editing: false
-            },
-            {
-                name: "Clean the house",
-				completed: true,
-				editing: false
-            },
-            {
-                name: "Take dog on walk",
-				completed: false,
-				editing: false
-            }
-        ],
+        	 todos: [
+        //     {
+        //         name: "Mow the lawn",
+		// 		completed: false,
+		// 		editing: false
+        //     },
+        //     {
+        //         name: "Clean the house",
+		// 		completed: true,
+		// 		editing: false
+        //     },
+        //     {
+        //         name: "Take dog on walk",
+		// 		completed: false,
+		// 		editing: false
+        //     }
+        	 ],
         new_todo_input: ""
+	},
+
+	created: function ( ) {
+		this.getTodos( );
 	},
 	
     methods: {
+
+		getTodos: function ( ) {
+			console.log( "Getting todos");
+			fetch( "http://localhost:3000/todos" ).then( function (response) {
+				response.json( ).then( function ( data ) {
+					console.log( data );
+					app.todos = data.todos;
+				});
+			});
+		},
+
+
+
         addNewTodo: function ( ) {
 			console.log( "Adding new todo" );
             var new_todo = { 
